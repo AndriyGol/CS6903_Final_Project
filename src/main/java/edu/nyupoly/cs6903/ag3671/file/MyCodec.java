@@ -1,8 +1,5 @@
 package edu.nyupoly.cs6903.ag3671.file;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import org.codehaus.preon.Codec;
 import org.codehaus.preon.Codecs;
 import org.codehaus.preon.DecodingException;
@@ -20,15 +17,15 @@ public class MyCodec <T extends BaseFileStructure> {
 		return Codecs.encode(obj, codec);
 	}
 	
-	public Optional<T> decode(byte[] arr) {
+	public T decode(byte[] arr) {
 		
 		try {
-			return Optional.of(Codecs.decode(codec, arr));
+			return Codecs.decode(codec, arr);
 		} catch (DecodingException e) {
 			
 		}
 		
-		return Optional.empty();
+		return null;
 	}
 	
 }

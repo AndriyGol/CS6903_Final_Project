@@ -1,7 +1,6 @@
 package edu.nyupoly.cs6903.ag3671;
 
 import java.security.Key;
-import java.util.Optional;
 
 import edu.nyupoly.cs6903.ag3671.crypto.CryptoImpl;
 import edu.nyupoly.cs6903.ag3671.crypto.KeyChainImpl;
@@ -33,17 +32,15 @@ public class Cryptor {
 		return getCodec().encode(file);
 	}
 	
-	public Optional<byte[]> decrypt(byte[] payload) throws Exception {
-		Optional<byte[]> returnVal = Optional.empty();
-		Optional<EncryptedFile> opt = getCodec().decode(payload);
-		if(opt.isPresent()) {
-			EncryptedFile file = opt.get();
-			
+	public byte[] decrypt(byte[] payload) throws Exception {
+		byte[] returnVal = null;
+		EncryptedFile file = getCodec().decode(payload);
+		if(file != null) {
 			boolean valid = getCrypto().signVerify(file.getPayload(), file.getSignature(), getKeyChain().getSignKeys());
 			if(valid) {
 				byte[] key = getCrypto().decryptBlockCipherKey(getKeyChain().getKeys(), file.getKey());
 				byte[] clear = getCrypto().decryptWithBlockCipher(key, file.getPayload());
-				returnVal = Optional.of(clear);
+				returnVal = clear;
 			}
 			else {
 				System.out.println("Encryped file signature verification failed.");

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.Security;
-import java.util.Optional;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Before;
@@ -85,10 +84,10 @@ public class CryptoTest {
 		Cryptor crypt = new Cryptor(chain);
 		
 		byte[] ciperText = crypt.encrypt(DATA.getBytes());
-		Optional<byte[]> clearText = crypt.decrypt(ciperText);
+		byte[] clearText = crypt.decrypt(ciperText);
 		
-		assertTrue(clearText.isPresent());
-		assertArrayEquals(clearText.get(), DATA.getBytes());
+		assertNotNull(clearText);
+		assertArrayEquals(clearText, DATA.getBytes());
 	}
 	
 	@Test
@@ -101,8 +100,8 @@ public class CryptoTest {
 		
 		byte[] ciperText = crypt.encrypt(DATA.getBytes());
 		ciperText[100] = (byte) (ciperText[100] + 1);
-		Optional<byte[]> clearText = crypt.decrypt(ciperText);
+		byte[] clearText = crypt.decrypt(ciperText);
 		
-		assertFalse(clearText.isPresent());
+		assertNull(clearText);
 	}
 }

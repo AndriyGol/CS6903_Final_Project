@@ -31,7 +31,6 @@ import java.security.Security;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.PrintCommandListener;
@@ -448,9 +447,9 @@ __main:
                 //InputStream byteIn = new ByteArrayInputStream(buf);
                 ftp.retrieveFile(remote, remoteFile);
                 remoteFile.flush();
-                Optional<byte[]> opt = cryptor.decrypt(remoteFile.toByteArray());
-                if(opt.isPresent()) {
-                	output.write(opt.get());
+                byte[] decrypted = cryptor.decrypt(remoteFile.toByteArray());
+                if(decrypted != null) {
+                	output.write(decrypted);
                 }
                 remoteFile.close();
                 // MY CODE -- END

@@ -10,9 +10,6 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.crypto.engines.AESEngine;
-import org.bouncycastle.jcajce.provider.symmetric.AES;
-
 
 public class CryptoImpl {
 	
